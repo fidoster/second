@@ -1,10 +1,10 @@
 import { postgres } from "../deps.js";
 
-let sql;
+let db;
 if (Deno.env.get("DATABASE_URL")) {
-  sql = postgres(Deno.env.get("DATABASE_URL"));
+  db = postgres(Deno.env.get("DATABASE_URL"));
 } else {
-  sql = postgres({});
+  db = postgres({});
 }
 
-export { sql };
+export { db };
