@@ -11,7 +11,7 @@
         <!-- Your header content here -->
     </header>
     <main>
-        {{ body }}
+        {% block body %}{% endblock %}
     </main>
     <footer>
         <!-- Your footer content here -->
