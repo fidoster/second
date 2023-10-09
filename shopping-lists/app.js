@@ -1,13 +1,13 @@
-import { serve } from "./deps.js";
+import { serve } from "https://deno.land/std@0.202.0/http/server.ts";
 import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
-import { getShoppingLists, createShoppingList } from './services/shopping-list-service.js'; // Import your service functions
+import { listMessages, addMessage } from "./services/addressService.js"; 
 
 configure({
   views: `${Deno.cwd()}/views/`,
 });
 
 const responseDetails = {
-  headers: { 'Content-Type': 'text/html;charset=UTF-8' },
+  headers: { "Content-Type": "text/html;charset=UTF-8" },
 };
 
 const redirectTo = (path) => {
@@ -19,38 +19,34 @@ const redirectTo = (path) => {
   });
 };
 
-const listShoppingListsHandler = async (request) => {
-  try {
-    const shoppingLists = await getShoppingLists(); // Fetch shopping lists from the database
-    const data = {
-      shoppingLists,
-    };
+const listMessagesHandler = async (request) => {
+  const data = {
+    messages: await listMessages(),
+  };
 
-    return new Response(await renderFile('shopping-lists.eta', data), responseDetails);
-  } catch (error) {
-    console.error('Error fetching shopping lists:', error);
-    // Handle errors and send an error response if necessary
-  }
+  return new Response(await renderFile("index.eta", data), responseDetails);
 };
 
-const createShoppingListHandler = async (request) => {
+const addMessageHandler = async (request) => {
   const formData = await request.formData();
-  const name = formData.get('name');
+  const sender = formData.get("sender");
+  const message = formData.get("message");
 
-  if (name) {
-    await createShoppingList(name); // To create a new shopping list in the database
+  if (sender && message) {
+    await addMessage(sender, message);
   }
 
-  return redirectTo('/lists');
+  return redirectTo("/");
 };
 
 const handleRequest = async (request) => {
   const url = new URL(request.url);
-  if (request.method === 'POST') {
-    return await createShoppingListHandler(request);
+  if (request.method === "POST") {
+    return await addMessageHandler(request);
   } else {
-    return await listShoppingListsHandler(request);
+    return await listMessagesHandler(request);
   }
 };
 
 serve(handleRequest, { port: 7777 });
+
