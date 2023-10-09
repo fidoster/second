@@ -1,13 +1,13 @@
-import { serve } from "https://deno.land/std@0.202.0/http/server.ts";
-import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
-import { listMessages, addMessage } from "./services/addressService.js"; 
+import { serve } from 'https://deno.land/std/http/server.ts';
+import { configure, renderFile } from 'https://deno.land/x/eta@v2.2.0/mod.ts';
+import { getShoppingLists, createShoppingList } from './services/shopping-list-service.js';
 
 configure({
   views: `${Deno.cwd()}/views/`,
 });
 
 const responseDetails = {
-  headers: { "Content-Type": "text/html;charset=UTF-8" },
+  headers: { 'Content-Type': 'text/html;charset=UTF-8' },
 };
 
 const redirectTo = (path) => {
@@ -19,32 +19,31 @@ const redirectTo = (path) => {
   });
 };
 
-const listMessagesHandler = async (request) => {
+const listShoppingListsHandler = async (request) => {
   const data = {
-    messages: await listMessages(),
+    shoppingLists: await getShoppingLists(),
   };
 
-  return new Response(await renderFile("index.eta", data), responseDetails);
+  return new Response(await renderFile('shopping-lists.eta', data), responseDetails);
 };
 
-const addMessageHandler = async (request) => {
+const addShoppingListHandler = async (request) => {
   const formData = await request.formData();
-  const sender = formData.get("sender");
-  const message = formData.get("message");
+  const name = formData.get('name');
 
-  if (sender && message) {
-    await addMessage(sender, message);
+  if (name) {
+    await createShoppingList(name);
   }
 
-  return redirectTo("/");
+  return redirectTo('/lists');
 };
 
 const handleRequest = async (request) => {
   const url = new URL(request.url);
-  if (request.method === "POST") {
-    return await addMessageHandler(request);
+  if (request.method === 'POST') {
+    return await addShoppingListHandler(request);
   } else {
-    return await listMessagesHandler(request);
+    return await listShoppingListsHandler(request);
   }
 };
 
