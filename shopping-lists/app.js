@@ -38,7 +38,7 @@ const createShoppingListHandler = async (request) => {
   const name = formData.get('name');
 
   if (name) {
-    await createShoppingList(name); // Create a new shopping list in the database
+    await createShoppingList(name); // To create a new shopping list in the database
   }
 
   return redirectTo('/lists');
