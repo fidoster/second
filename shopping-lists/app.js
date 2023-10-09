@@ -1,5 +1,5 @@
 import { serve } from "./deps.js";
-import { configure, renderFile } from 'https://deno.land/x/eta/mod.ts';
+import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
 import { getShoppingLists, createShoppingList } from './services/shopping-list-service.js'; // Import your service functions
 
 configure({
