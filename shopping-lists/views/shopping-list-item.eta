@@ -1,0 +1,32 @@
+<!-- Extends the layout.eta template -->
+{% extends "layout.eta" %}
+
+<!-- Sets the title for this page -->
+{% set title = "Shopping List Items" %}
+
+<!-- Defines the body content -->
+{% block body %}
+    <h1>{{ title }}</h1>
+    <h2>Shopping List: {{ shoppingList.name }}</h2>
+    <!-- Your shopping list item content here -->
+    <ul>
+        {% for item in shoppingListItems %}
+            <li>
+                {{ item.name }}
+                {% if item.collected %}
+                    <span style="text-decoration: line-through;">(Collected)</span>
+                {% else %}
+                    <form action="/lists/{{ shoppingList.id }}/items/{{ item.id }}/collect" method="POST">
+                        <button type="submit">Mark Collected</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="/lists/{{ shoppingList.id }}/items" method="POST">
+        <input type="text" name="name" placeholder="Add a new item" required>
+        <button type="submit">Add Item</button>
+    </form>
+    <!-- Add other content as needed -->
+    <a href="/lists">Back to Shopping Lists</a>
+{% endblock %}

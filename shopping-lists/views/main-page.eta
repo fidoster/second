@@ -1,0 +1,11 @@
+<!-- Extends the layout.eta template -->
+{% extends "layout.eta" %}
+
+<!-- Sets the title for this page -->
+{% set title = "Shared shopping lists" %}
+
+<!-- Defines the body content -->
+{% block body %}
+    <h1>{{ title }}</h1>
+    <!-- Your main page content here -->
+{% endblock %}

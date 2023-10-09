@@ -1,0 +1,21 @@
+<!-- Extends the layout.eta template -->
+{% extends "layout.eta" %}
+
+<!-- Sets the title for this page -->
+{% set title = "Shopping Lists" %}
+
+<!-- Defines the body content -->
+{% block body %}
+    <h1>{{ title }}</h1>
+    <!-- Your shopping list content here -->
+    <ul>
+        {% for list in shoppingLists %}
+            <li><a href="/lists/{{ list.id }}">{{ list.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <form action="/lists" method="POST">
+        <input type="text" name="name" placeholder="Enter a new shopping list" required>
+        <button type="submit">Add List</button>
+    </form>
+    <!-- Add other content as needed -->
+{% endblock %}
