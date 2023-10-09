@@ -1,5 +1,5 @@
-import { serve } from 'https://deno.land/std/http/server.ts';
-import { configure, renderFile } from 'https://deno.land/x/eta@v2.2.0/mod.ts';
+import { serve } from "https://deno.land/std@0.202.0/http/server.ts";
+import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
 import { getShoppingLists, createShoppingList } from './services/shopping-list-service.js';
 
 configure({
@@ -24,7 +24,7 @@ const listShoppingListsHandler = async (request) => {
     shoppingLists: await getShoppingLists(),
   };
 
-  return new Response(await renderFile('shopping-lists.eta', data), responseDetails);
+  return new Response(await renderFile('layout.eta', data), responseDetails);
 };
 
 const addShoppingListHandler = async (request) => {
