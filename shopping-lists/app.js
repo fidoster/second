@@ -24,7 +24,7 @@ const listShoppingListsHandler = async (request) => {
     shoppingLists: await getShoppingLists(),
   };
 
-  return new Response(await renderFile('layout.eta', data), responseDetails);
+  return new Response(await renderFile('shopping-lists.eta', data), responseDetails);
 };
 
 const addShoppingListHandler = async (request) => {
