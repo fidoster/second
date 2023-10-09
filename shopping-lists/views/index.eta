@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Best Chat Application</title>
+</head>
+<body>
+  <h1>Chat</h1>
+
+  <h2>Send a Message</h2>
+  <form method="POST">
+    Sender: <input type="text" name="sender" /><br />
+    Message: <input type="text" name="message" /><br />
+    <input type="submit" value="Send" />
+  </form>
+
+  <h2>Recent Messages</h2>
+  <ul>
+    <% it.messages.forEach((message) => { %>
+      <li>
+        <%= message.sender %>: <%= message.message %>
+      </li>
+    <% }); %>
+  </ul>
+</body>
+</html>
